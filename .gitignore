@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 bin
 gen
 proguard-project.txt
-=======
->>>>>>> cfab502cd509410ea0b172ad5965ef2f642fecdb
 *.class
+.settings
