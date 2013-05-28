@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">Bookshelf</string>
+    
+    
+    <!-- ActivityDrawer -->
+    <string name="ActivityDrawer_Drawer_TitleOpened">Bookshelf</string>
+    <string name="ActivityDrawer_Drawer_TitleClosed">Bookshelf</string>
+    <string name="ActivityDrawer_Menu_Search">Search</string>
+    <string name="ActivityDrawer_Menu_Settings">Settings</string>
+
+</resources>
