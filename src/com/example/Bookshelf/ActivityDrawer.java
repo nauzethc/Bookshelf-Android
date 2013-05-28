@@ -1,6 +1,7 @@
 package com.example.Bookshelf;
 
 import android.app.ActionBar;
+
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -94,9 +96,29 @@ public class ActivityDrawer extends FragmentActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	getMenuInflater().inflate(R.menu.activity_drawer, menu);
+    	
+    	// Set search listener
     	SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
     	searchView.setOnQueryTextListener(this);
-        return true;
+    	searchView.setOnCloseListener(this);
+    	
+    	/*
+    	// Implement close listener through MenuItem,
+    	// it doesn't work with SearchView.OnCloseListener)
+    	MenuItem searchItem = (MenuItem) menu.findItem(R.id.action_search);
+    	searchItem.setOnActionExpandListener(new OnActionExpandListener() {
+			@Override
+			public boolean onMenuItemActionExpand(MenuItem item) {
+				return true;
+			}			
+			@Override
+			public boolean onMenuItemActionCollapse(MenuItem item) {
+				onQueryTextChange(null);
+				return true;
+			}
+		});
+		*/
+    	return true;
     }
 
 	@Override
@@ -142,6 +164,7 @@ public class ActivityDrawer extends FragmentActivity implements
 	}
 	@Override
 	public boolean onClose() {
-		return onQueryTextChange("");
+		Toast.makeText(getApplicationContext(), "Closed", Toast.LENGTH_SHORT).show();
+		return onQueryTextChange(null);
 	}
 }
