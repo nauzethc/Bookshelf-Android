@@ -1,4 +1,4 @@
-package com.example.Bookshelf.adapters;
+package com.example.bookshelf.adapters;
 
 
 import android.content.Context;
@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.example.Bookshelf.R;
-import com.example.Bookshelf.models.Book;
-import com.example.Bookshelf.providers.BookProvider;
+import com.example.bookshelf.R;
+import com.example.bookshelf.models.Book;
+import com.example.bookshelf.providers.BookProvider;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,8 @@ public class BookAdapter extends BaseAdapter implements Filterable {
     public BookAdapter(Context context) {
         this.context = context;
         // Load books
-        books = BookProvider.getBooks();
+        books = new ArrayList<Book>();
+        //books = BookProvider.getBooks();
         // Replicate to filtered
         booksFiltered = new ArrayList<Book>(books);
     }

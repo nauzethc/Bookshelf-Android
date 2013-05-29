@@ -1,4 +1,4 @@
-package com.example.Bookshelf.adapters;
+package com.example.bookshelf.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import com.example.Bookshelf.R;
-import com.example.Bookshelf.models.Author;
-import com.example.Bookshelf.providers.AuthorProvider;
+import com.example.bookshelf.R;
+import com.example.bookshelf.models.Author;
+import com.example.bookshelf.providers.AuthorProvider;
 
 import java.util.ArrayList;
 

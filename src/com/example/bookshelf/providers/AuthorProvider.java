@@ -1,7 +1,7 @@
-package com.example.Bookshelf.providers;
+package com.example.bookshelf.providers;
 
 
-import com.example.Bookshelf.models.Author;
+import com.example.bookshelf.models.Author;
 
 import java.util.ArrayList;
 

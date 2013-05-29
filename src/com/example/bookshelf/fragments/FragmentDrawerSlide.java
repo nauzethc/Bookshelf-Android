@@ -1,4 +1,4 @@
-package com.example.Bookshelf.fragments;
+package com.example.bookshelf.fragments;
 
 
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
-import com.example.Bookshelf.ActivityDrawer;
+import com.example.bookshelf.ActivityDrawer;
 
 public class FragmentDrawerSlide extends ListFragment {
 

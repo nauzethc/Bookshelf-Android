@@ -1,4 +1,4 @@
-package com.example.Bookshelf.models;
+package com.example.bookshelf.models;
 
 
 public class Author {

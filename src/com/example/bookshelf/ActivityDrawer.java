@@ -1,4 +1,4 @@
-package com.example.Bookshelf;
+package com.example.bookshelf;
 
 import android.app.ActionBar;
 
@@ -11,22 +11,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.Bookshelf.fragments.FilterableListFragment;
-import com.example.Bookshelf.fragments.FragmentAuthors;
-import com.example.Bookshelf.fragments.FragmentBooks;
-import com.example.Bookshelf.fragments.FragmentDrawerSlide;
+import com.example.bookshelf.R;
+import com.example.bookshelf.fragments.FragmentAuthors;
+import com.example.bookshelf.fragments.FragmentBooks;
+import com.example.bookshelf.fragments.FragmentDrawerSlide;
 
 public class ActivityDrawer extends FragmentActivity implements 
-	OnItemClickListener,
-	SearchView.OnCloseListener,
-	SearchView.OnQueryTextListener {
+	AdapterView.OnItemClickListener {
 
 	// ActionBar
 	private ActionBar actionBar;
@@ -97,14 +92,14 @@ public class ActivityDrawer extends FragmentActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
     	getMenuInflater().inflate(R.menu.activity_drawer, menu);
     	
+    	/*
     	// Set search listener
     	SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
     	searchView.setOnQueryTextListener(this);
     	searchView.setOnCloseListener(this);
     	
-    	/*
     	// Implement close listener through MenuItem,
-    	// it doesn't work with SearchView.OnCloseListener)
+    	// it doesn't work with SearchView.OnCloseListener
     	MenuItem searchItem = (MenuItem) menu.findItem(R.id.action_search);
     	searchItem.setOnActionExpandListener(new OnActionExpandListener() {
 			@Override
@@ -145,26 +140,5 @@ public class ActivityDrawer extends FragmentActivity implements
 			ft.commit();
 		}
 		drawerLayout.closeDrawers();
-	}
-
-	@Override
-	public boolean onQueryTextChange(String newText) {
-		if (fragmentToShow != null) {
-			try {
-				FilterableListFragment fragment = (FilterableListFragment) fragmentToShow;
-				fragment.setListFilter(newText);
-				return true;
-			} catch (Exception e) {}
-		}
-		return false;
-	}
-	@Override
-	public boolean onQueryTextSubmit(String query) {
-		return onQueryTextChange(query);
-	}
-	@Override
-	public boolean onClose() {
-		Toast.makeText(getApplicationContext(), "Closed", Toast.LENGTH_SHORT).show();
-		return onQueryTextChange(null);
 	}
 }

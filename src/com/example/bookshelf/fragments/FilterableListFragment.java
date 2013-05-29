@@ -1,4 +1,4 @@
-package com.example.Bookshelf.fragments;
+package com.example.bookshelf.fragments;
 
 import android.support.v4.app.ListFragment;
 
