@@ -2,6 +2,7 @@ package com.example.bookshelf.adapters;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +10,22 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.example.bookshelf.R;
 import com.example.bookshelf.models.Book;
-import com.example.bookshelf.providers.BookProvider;
+import com.example.bookshelf.providers.BookshelfProvider;
 
 import java.util.ArrayList;
 
-public class BookAdapter extends BaseAdapter implements Filterable {
+public class BookAdapter extends CursorAdapter implements Filterable {
 
-    private BookFilter filter;
-    private final ArrayList<Book> books;
+    //private BookFilter filter;
+    //private final ArrayList<Book> books;
     private ArrayList<Book> booksFiltered;
     private Context context;
+    
+    public BookAdapter(Context context, Cursor cursor) {
+    	super(context, cursor);
+    }
 
+    /*
     public BookAdapter(Context context) {
         this.context = context;
         // Load books
@@ -28,8 +34,6 @@ public class BookAdapter extends BaseAdapter implements Filterable {
         // Replicate to filtered
         booksFiltered = new ArrayList<Book>(books);
     }
-
-
 
     @Override
     public int getCount() {
@@ -113,4 +117,23 @@ public class BookAdapter extends BaseAdapter implements Filterable {
             notifyDataSetChanged();
         }
     }
+    */
+
+	@Override
+	public void bindView(View bookView, Context context, Cursor cursor) {
+		TextView bookTitle = (TextView) bookView.findViewById(R.id.BookView_Text_Title);
+		bookTitle.setText(cursor.getString(cursor.getColumnIndex("title")));
+        TextView bookAuthor = (TextView) bookView.findViewById(R.id.BookView_Text_Author);
+        bookTitle.setText( Integer.toString(cursor.getInt((cursor.getColumnIndex("author")))) );
+        ImageView bookCover  = (ImageView) bookView.findViewById(R.id.BookView_Image_Cover);
+        bookCover.setImageDrawable( context.getResources().getDrawable(R.drawable.ic_launcher) );
+    }
+
+	@Override
+	public View newView(Context context, Cursor cursor, ViewGroup parent) {
+		LayoutInflater inflater = LayoutInflater.from(context);
+		View view = inflater.inflate(R.layout.fragment_books_list_view, parent, false);
+		bindView(view, context, cursor);
+		return view;
+	}
 }

@@ -1,6 +1,7 @@
 package com.example.bookshelf;
 
 import android.app.ActionBar;
+import android.database.sqlite.SQLiteDatabase;
 
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.example.bookshelf.R;
+import com.example.bookshelf.db.BookshelfHelper;
 import com.example.bookshelf.fragments.FragmentAuthors;
 import com.example.bookshelf.fragments.FragmentBooks;
 import com.example.bookshelf.fragments.FragmentDrawerSlide;
@@ -34,6 +36,9 @@ public class ActivityDrawer extends FragmentActivity implements
     private FragmentBooks fragmentBooks;
     private FragmentAuthors fragmentAuthors;
     private Fragment fragmentToShow;
+    // Database
+    private BookshelfHelper booksHelper;
+    private SQLiteDatabase booksDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,11 @@ public class ActivityDrawer extends FragmentActivity implements
         fragmentManager.beginTransaction()
                 .add(R.id.ActivityDrawer_Drawer_FrameSlide, fragmentDrawer)
                 .commit();
+        
+        // Load DB
+        booksHelper = new BookshelfHelper(getBaseContext());
+        booksDatabase = booksHelper.getWritableDatabase();
+        Toast.makeText(getApplicationContext(), "Database created!", Toast.LENGTH_LONG).show();
     }
     
     @Override

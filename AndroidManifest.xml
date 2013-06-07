@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <provider android:name="BooksProvider"
+            android:authorities="com.example.bookshelf" />
     </application>
 
 </manifest>
