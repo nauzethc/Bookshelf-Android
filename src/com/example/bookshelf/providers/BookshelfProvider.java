@@ -7,13 +7,8 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.provider.BaseColumns;
 
 import com.example.bookshelf.db.BookshelfHelper;
-import com.example.bookshelf.models.Author;
-import com.example.bookshelf.models.Book;
-
-import java.util.ArrayList;
 
 public class BookshelfProvider extends ContentProvider {
     
@@ -24,39 +19,12 @@ public class BookshelfProvider extends ContentProvider {
 	
 	// Database helper
 	private BookshelfHelper bookshelfHelper;
-	
-	
-	/* ***********************************************************************
-	 * TABLE authors
-	 */
-	public static final class AUTHORS implements BaseColumns {
-		private AUTHORS(){}
-		// Table name
-		public static final String NAME = "authors";
-		// Columns
-		public static final String KEY_ID = "_id";
-		public static final String KEY_NAME = "name";
-		// URIs
-		public static final int URI_AUTHORS = 101;
-		public static final int URI_AUTHORS_ID = 102;
-	}	
-	
-	/* ***********************************************************************
-	 * TABLE books
-	 */
-	public static final class BOOKS implements BaseColumns {
-		private BOOKS(){}
-		// Table name
-		public static final String NAME = "books";
-		// Columns
-		public static final String KEY_ID = "_id";
-		public static final String KEY_TITLE = "title";
-		public static final String KEY_YEAR = "year";
-		public static final String KEY_AUTHOR = "author";
-		// URIs
-		private static final int URI_BOOKS = 201;
-		private static final int URI_BOOKS_ID = 202;
-	}	
+
+    // URIs
+    public static final int URI_AUTHORS = 101;
+    public static final int URI_AUTHORS_ID = 102;
+    public static final int URI_BOOKS = 201;
+    public static final int URI_BOOKS_ID = 202;
 	
 	/* ***********************************************************************
 	 * URI Matcher
@@ -64,22 +32,22 @@ public class BookshelfProvider extends ContentProvider {
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		uriMatcher.addURI(AUTHORITY, "authors",   AUTHORS.URI_AUTHORS);
-		uriMatcher.addURI(AUTHORITY, "authors/#", AUTHORS.URI_AUTHORS_ID);
-		uriMatcher.addURI(AUTHORITY, "books",     BOOKS.URI_BOOKS);
-		uriMatcher.addURI(AUTHORITY, "books/#",   BOOKS.URI_BOOKS_ID);
+		uriMatcher.addURI(AUTHORITY, "authors",   URI_AUTHORS);
+		uriMatcher.addURI(AUTHORITY, "authors/#", URI_AUTHORS_ID);
+		uriMatcher.addURI(AUTHORITY, "books",     URI_BOOKS);
+		uriMatcher.addURI(AUTHORITY, "books/#",   URI_BOOKS_ID);
 	}
 
 	@Override
 	public String getType(Uri uri) {
 		switch (uriMatcher.match(uri)) {
-		case AUTHORS.URI_AUTHORS:
+		case URI_AUTHORS:
 			return "vnd.android.cursor.dir/vnd.bookshelf.author";
-		case AUTHORS.URI_AUTHORS_ID:
+		case URI_AUTHORS_ID:
 			return "vnd.android.cursor.item/vnd.bookshelf.author";
-		case BOOKS.URI_BOOKS:
+		case URI_BOOKS:
 			return "vnd.android.cursor.dir/vnd.bookshelf.book";
-		case BOOKS.URI_BOOKS_ID:
+		case URI_BOOKS_ID:
 			return "vnd.android.cursor.item/vnd.bookshelf.book";
 		default:
 			return null;
@@ -113,8 +81,8 @@ public class BookshelfProvider extends ContentProvider {
 		switch (uriMatcher.match(uri)) {
 		
 		// Query all Authors
-		case AUTHORS.URI_AUTHORS:
-			cursor = db.query(AUTHORS.NAME,
+		case URI_AUTHORS:
+			cursor = db.query(BookshelfHelper.AUTHORS.TABLE_NAME,
 					projection,
 					selection, 
 					selectionArgs,
@@ -124,10 +92,10 @@ public class BookshelfProvider extends ContentProvider {
 			return cursor;
 		
 		// Query Author by ID
-		case AUTHORS.URI_AUTHORS_ID:
-			cursor = db.query(AUTHORS.NAME,
+		case URI_AUTHORS_ID:
+			cursor = db.query(BookshelfHelper.AUTHORS.TABLE_NAME,
 					projection,
-					AUTHORS.KEY_ID +"="+ uri.getLastPathSegment(), 
+					BookshelfHelper.AUTHORS.KEY_ID +"="+ uri.getLastPathSegment(),
 					selectionArgs,
 					null,
 					null,
@@ -135,8 +103,8 @@ public class BookshelfProvider extends ContentProvider {
 			return cursor;
 		
 		// Query all Books
-		case BOOKS.URI_BOOKS:
-			cursor = db.query(BOOKS.NAME,
+		case URI_BOOKS:
+			cursor = db.query(BookshelfHelper.BOOKS.TABLE_NAME,
 					projection,
 					selection, 
 					selectionArgs,
@@ -146,10 +114,10 @@ public class BookshelfProvider extends ContentProvider {
 			return cursor;
 		
 		// Query Book by ID
-		case BOOKS.URI_BOOKS_ID:
-			cursor = db.query(BOOKS.NAME,
+		case URI_BOOKS_ID:
+			cursor = db.query(BookshelfHelper.BOOKS.TABLE_NAME,
 					projection,
-					BOOKS.KEY_ID +"="+ uri.getLastPathSegment(),
+					BookshelfHelper.BOOKS.KEY_ID +"="+ uri.getLastPathSegment(),
 					selectionArgs,
 					null,
 					null,

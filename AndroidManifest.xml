@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         
-        <provider android:name="BooksProvider"
+        <provider android:name=".providers.BookshelfProvider"
             android:authorities="com.example.bookshelf" />
     </application>
 

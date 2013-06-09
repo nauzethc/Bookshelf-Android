@@ -27,9 +27,6 @@ public class BookshelfHelper extends SQLiteOpenHelper {
 		public static final String KEY_NAME = "name";
 		// Index
 		public static final String INDEX_NAME = "authors_name";
-		// URIs
-		public static final int URI_AUTHORS = 101;
-		public static final int URI_AUTHORS_ID = 102;
 	}
 	
 	/* ***********************************************************************
@@ -38,15 +35,14 @@ public class BookshelfHelper extends SQLiteOpenHelper {
 	public static final class BOOKS implements BaseColumns {
 		private BOOKS(){}
 		// Table name
-		public static final String NAME = "books";
+		public static final String TABLE_NAME = "books";
 		// Columns
 		public static final String KEY_ID = "_id";
 		public static final String KEY_TITLE = "title";
 		public static final String KEY_YEAR = "year";
 		public static final String KEY_AUTHOR = "author";
-		// URIs
-		private static final int URI_BOOKS = 201;
-		private static final int URI_BOOKS_ID = 202;
+        // Index
+        public static final String INDEX_TITLE = "books_title";
 	}	
 	
 
@@ -58,7 +54,7 @@ public class BookshelfHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		
 		// Authors table
-		db.execSQL("CREATE TABLE "+ AUTHORS.TABLE_NAME +"(" +
+		db.execSQL("CREATE TABLE "+ AUTHORS.TABLE_NAME +"( " +
 			AUTHORS.KEY_ID + " INTEGER UNIQUE PRIMARY KEY," +
 			AUTHORS.KEY_NAME + " TEXT NOT NULL )");
 		// Authors index
@@ -70,25 +66,31 @@ public class BookshelfHelper extends SQLiteOpenHelper {
 		db.execSQL("INSERT INTO "+ AUTHORS.TABLE_NAME +" VALUES(2, 'J.R.R. Tolkien')");
 		
 		// Books table
-		db.execSQL("CREATE TABLE books(" +
-			" _id INTEGER UNIQUE PRIMARY KEY," +
-			" title TEXT NOT NULL," + 
-			" year INTEGER," + 
-			" author INTEGER NOT NULL )");
-		db.execSQL("CREATE UNIQUE INDEX books_title ON books(title ASC)");
+		db.execSQL("CREATE TABLE "+ BOOKS.TABLE_NAME +"( " +
+			BOOKS.KEY_ID + " INTEGER UNIQUE PRIMARY KEY," +
+            BOOKS.KEY_TITLE + " title TEXT NOT NULL," +
+            BOOKS.KEY_YEAR + " INTEGER," +
+            BOOKS.KEY_AUTHOR + " INTEGER NOT NULL )");
+        // Books index
+        db.execSQL("CREATE UNIQUE INDEX " +
+            BOOKS.INDEX_TITLE + " ON " +
+            BOOKS.TABLE_NAME + "(" + BOOKS.KEY_TITLE + " ASC)");
 		// Fill table
 		db.execSQL("INSERT INTO books VALUES(1, 'Game of Thrones', 1996, 1)");
 		db.execSQL("INSERT INTO books VALUES(2, 'Clash of Kings', 1996, 1)");
 		db.execSQL("INSERT INTO books VALUES(3, 'Storm of Swords', 1996, 1)");
 		db.execSQL("INSERT INTO books VALUES(4, 'Feast for Crows', 1996, 1)");
 		db.execSQL("INSERT INTO books VALUES(5, 'Dance with Dragons', 2012, 1)");
+        db.execSQL("INSERT INTO books VALUES(6, 'The Lord of the Rings', 2012, 2)");
+        db.execSQL("INSERT INTO books VALUES(7, 'The Hobbit', 2012, 2)");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		if (oldVersion < newVersion) {
-			 db.execSQL("DELETE TABLE IF EXISTS books");
-			 onCreate(db);
+            db.execSQL("DELETE TABLE IF EXISTS authors");
+            db.execSQL("DELETE TABLE IF EXISTS books");
+            onCreate(db);
 		}
 	}
 
