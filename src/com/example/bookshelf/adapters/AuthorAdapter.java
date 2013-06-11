@@ -9,23 +9,23 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 import com.example.bookshelf.R;
+import com.example.bookshelf.data.AuthorProvider;
 import com.example.bookshelf.models.Author;
-import com.example.bookshelf.providers.AuthorProvider;
 
 import java.util.ArrayList;
 
 public class AuthorAdapter extends BaseAdapter implements Filterable {
 
     private AuthorFilter filter;
-    private final ArrayList<Author> authors;
+    private final ArrayList<Author> authors = null;
     private ArrayList<Author> authorsFiltered;
     private Context context;
 
     public AuthorAdapter(Context context) {
         this.context = context;
         // Load authors
-        authors = AuthorProvider.getAuthors();
-        authorsFiltered = new ArrayList<Author>(authors);
+        //authors = AuthorProvider.getAuthors();
+        //authorsFiltered = new ArrayList<Author>(authors);
     }
 
     @Override

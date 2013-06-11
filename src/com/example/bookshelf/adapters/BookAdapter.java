@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.example.bookshelf.R;
+import com.example.bookshelf.data.BookshelfProvider;
 import com.example.bookshelf.models.Book;
-import com.example.bookshelf.providers.BookshelfProvider;
 
 import java.util.ArrayList;
 

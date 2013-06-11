@@ -1,4 +1,4 @@
-package com.example.bookshelf.db;
+package com.example.bookshelf.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -52,6 +52,7 @@ public class BookshelfHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		Log.d(TAG, "Initializing database...");
 		
 		// Authors table
 		db.execSQL("CREATE TABLE "+ AUTHORS.TABLE_NAME +"( " +
@@ -83,11 +84,14 @@ public class BookshelfHelper extends SQLiteOpenHelper {
 		db.execSQL("INSERT INTO books VALUES(5, 'Dance with Dragons', 2012, 1)");
         db.execSQL("INSERT INTO books VALUES(6, 'The Lord of the Rings', 2012, 2)");
         db.execSQL("INSERT INTO books VALUES(7, 'The Hobbit', 2012, 2)");
+        
+        Log.i(TAG, "Database created!");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		if (oldVersion < newVersion) {
+			Log.d(TAG, "Old database version found, dropping...");
             db.execSQL("DELETE TABLE IF EXISTS authors");
             db.execSQL("DELETE TABLE IF EXISTS books");
             onCreate(db);

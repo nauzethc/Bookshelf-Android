@@ -15,8 +15,9 @@ import android.widget.SimpleCursorAdapter;
 
 import com.example.bookshelf.R;
 import com.example.bookshelf.adapters.BookAdapter;
-import com.example.bookshelf.db.BookshelfHelper;
-import com.example.bookshelf.providers.BookshelfProvider;
+import com.example.bookshelf.data.BookProvider;
+import com.example.bookshelf.data.BookshelfHelper;
+import com.example.bookshelf.data.BookshelfProvider;
 
 public class FragmentBooks extends ListFragment implements
 	//SearchView.OnQueryTextListener,
@@ -79,8 +80,7 @@ public class FragmentBooks extends ListFragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        Uri uri = Uri.parse(BookshelfProvider.URI + "books");
-        return new CursorLoader(getActivity(), uri, null, null, null, null);
+        return new CursorLoader(getActivity(), BookProvider.CONTENT_URI, null, null, null, null);
     }
 
     @Override

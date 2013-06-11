@@ -1,31 +1,24 @@
 package com.example.bookshelf.fragments;
 
-import com.example.bookshelf.R;
-import com.example.bookshelf.adapters.AuthorAdapter;
-import com.example.bookshelf.db.BookshelfHelper;
-import com.example.bookshelf.providers.BookshelfProvider;
+import com.example.bookshelf.data.AuthorProvider;
+import com.example.bookshelf.data.BookshelfHelper;
 
-import android.R.anim;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.content.CursorLoader;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
+
 
 public class FragmentAuthors extends ListFragment implements 
 	//SearchView.OnQueryTextListener,
 	//SearchView.OnCloseListener,
 	LoaderManager.LoaderCallbacks<Cursor> {
 	
-	private MenuItem searchItem;
-	private SearchView searchView;
+	//private MenuItem searchItem;
+	//private SearchView searchView;
 	private SimpleCursorAdapter authorAdapter;
 	
 	@Override
@@ -79,8 +72,7 @@ public class FragmentAuthors extends ListFragment implements
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-		Uri uri = Uri.parse(BookshelfProvider.URI + "authors");
-		return new CursorLoader(getActivity(), uri, null, null, null, null);
+		return new CursorLoader(getActivity(), AuthorProvider.CONTENT_URI, null, null, null, null);
 	}
 
 	@Override
