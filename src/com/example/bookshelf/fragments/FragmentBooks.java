@@ -30,21 +30,20 @@ public class FragmentBooks extends ListFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Fill with adapter
-        //setEmptyText("No books");
         setHasOptionsMenu(true);
-
+        
+        // Fill with adapter
         bookAdapter = new SimpleCursorAdapter(getActivity(),
             android.R.layout.simple_list_item_2,
             null,
-            new String[] { BookshelfHelper.BOOKS.KEY_TITLE, BookshelfHelper.BOOKS.KEY_YEAR },
+            new String[] { 
+        		BookshelfHelper.AUTHORS.TABLE_NAME+"."+BookshelfHelper.BOOKS.KEY_TITLE,
+        		BookshelfHelper.AUTHORS.TABLE_NAME+"."+BookshelfHelper.BOOKS.KEY_AUTHOR },
             new int[] { android.R.id.text1, android.R.id.text2 },
             0);
 
         setListAdapter(bookAdapter);
         getActivity().getSupportLoaderManager().initLoader(0, null, this);
-
     }
 
     /*

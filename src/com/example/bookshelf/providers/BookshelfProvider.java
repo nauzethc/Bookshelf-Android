@@ -5,8 +5,11 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.CursorJoiner;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.bookshelf.db.BookshelfHelper;
 
@@ -82,46 +85,56 @@ public class BookshelfProvider extends ContentProvider {
 		
 		// Query all Authors
 		case URI_AUTHORS:
-			cursor = db.query(BookshelfHelper.AUTHORS.TABLE_NAME,
-					projection,
-					selection, 
-					selectionArgs,
-					null,
-					null,
-					sortOrder);
+			cursor = db.rawQuery(
+				"SELECT " +
+				BookshelfHelper.AUTHORS.TABLE_NAME+"."+BookshelfHelper.AUTHORS.KEY_ID + ", " +
+				BookshelfHelper.AUTHORS.TABLE_NAME+"."+BookshelfHelper.AUTHORS.KEY_NAME + ", " +
+					"(SELECT COUNT(*) FROM " +
+					BookshelfHelper.BOOKS.TABLE_NAME + " " +
+					"WHERE " +
+					BookshelfHelper.BOOKS.TABLE_NAME+"."+BookshelfHelper.BOOKS.KEY_AUTHOR + "=" +
+					BookshelfHelper.AUTHORS.TABLE_NAME+"."+BookshelfHelper.AUTHORS.KEY_ID + ") AS books " +
+				"FROM " +
+				BookshelfHelper.AUTHORS.TABLE_NAME,
+				selectionArgs);
 			return cursor;
 		
 		// Query Author by ID
 		case URI_AUTHORS_ID:
 			cursor = db.query(BookshelfHelper.AUTHORS.TABLE_NAME,
-					projection,
-					BookshelfHelper.AUTHORS.KEY_ID +"="+ uri.getLastPathSegment(),
-					selectionArgs,
-					null,
-					null,
-					sortOrder);
+				projection,
+				BookshelfHelper.AUTHORS.KEY_ID +"="+ uri.getLastPathSegment(),
+				selectionArgs,
+				null,
+				null,
+				sortOrder);
 			return cursor;
 		
-		// Query all Books
+		// Query all Books, join authors
 		case URI_BOOKS:
-			cursor = db.query(BookshelfHelper.BOOKS.TABLE_NAME,
-					projection,
-					selection, 
-					selectionArgs,
-					null,
-					null,
-					sortOrder);
+			cursor = db.rawQuery(
+				"SELECT " +
+				BookshelfHelper.BOOKS.TABLE_NAME+"."+BookshelfHelper.BOOKS.KEY_ID + ", " +
+				BookshelfHelper.BOOKS.TABLE_NAME+"."+BookshelfHelper.BOOKS.KEY_TITLE + ", " +
+				BookshelfHelper.BOOKS.TABLE_NAME+"."+BookshelfHelper.BOOKS.KEY_YEAR + ", " +
+				BookshelfHelper.AUTHORS.TABLE_NAME+"."+BookshelfHelper.AUTHORS.KEY_NAME + " AS author " +
+				"FROM " + 
+				BookshelfHelper.BOOKS.TABLE_NAME + " " +
+				"LEFT OUTER JOIN " + BookshelfHelper.AUTHORS.TABLE_NAME + " ON " +
+				BookshelfHelper.BOOKS.TABLE_NAME+"."+BookshelfHelper.BOOKS.KEY_AUTHOR + "=" + 
+				BookshelfHelper.AUTHORS.TABLE_NAME+"."+BookshelfHelper.AUTHORS.KEY_ID,
+				selectionArgs);
 			return cursor;
 		
 		// Query Book by ID
 		case URI_BOOKS_ID:
 			cursor = db.query(BookshelfHelper.BOOKS.TABLE_NAME,
-					projection,
-					BookshelfHelper.BOOKS.KEY_ID +"="+ uri.getLastPathSegment(),
-					selectionArgs,
-					null,
-					null,
-					sortOrder);
+				projection,
+				BookshelfHelper.BOOKS.KEY_ID +"="+ uri.getLastPathSegment(),
+				selectionArgs,
+				null,
+				null,
+				sortOrder);
 			return cursor;
 
 		default:
